@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Add New Recipe</h1>
+<form method="POST" action="{{ url_for('new_recipe') }}">
+    <div class="form-group">
+        <label for="title">Recipe Title *</label>
+        <input type="text" id="title" name="title" required>
+    </div>
+
+    <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+        <div class="form-group" style="flex:1;">
+            <label for="prep_time">Prep Time (min)</label>
+            <input type="number" id="prep_time" name="prep_time" min="0">
+        </div>
+        <div class="form-group" style="flex:1;">
+            <label for="cook_time">Cook Time (min)</label>
+            <input type="number" id="cook_time" name="cook_time" min="0">
+        </div>
+        <div class="form-group" style="flex:1;">
+            <label for="servings">Servings</label>
+            <input type="number" id="servings" name="servings" min="1">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Ingredients</label>
+        <div id="ingredients-container">
+            <div class="ingredient-row">
+                <input type="text" name="ingredient_name[]" placeholder="Ingredient name">
+                <input type="text" name="ingredient_quantity[]" class="qty" placeholder="Qty">
+                <input type="text" name="ingredient_unit[]" class="unit" placeholder="Unit">
+                <button type="button" class="btn btn-danger" onclick="removeRow(this)">X</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="addIngredient()">+ Add Ingredient</button>
+    </div>
+
+    <div class="form-group">
+        <label>Steps</label>
+        <div id="steps-container">
+            <div class="step-row">
+                <textarea name="step_instruction[]" rows="2" placeholder="Step instruction"></textarea>
+                <button type="button" class="btn btn-danger" onclick="removeRow(this)">X</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="addStep()">+ Add Step</button>
+    </div>
+
+    <div class="actions">
+        <button type="submit" class="btn">Save Recipe</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function addIngredient() {
+    const container = document.getElementById('ingredients-container');
+    const div = document.createElement('div');
+    div.className = 'ingredient-row';
+    div.innerHTML = `
+        <input type="text" name="ingredient_name[]" placeholder="Ingredient name">
+        <input type="text" name="ingredient_quantity[]" class="qty" placeholder="Qty">
+        <input type="text" name="ingredient_unit[]" class="unit" placeholder="Unit">
+        <button type="button" class="btn btn-danger" onclick="removeRow(this)">X</button>
+    `;
+    container.appendChild(div);
+}
+
+function addStep() {
+    const container = document.getElementById('steps-container');
+    const div = document.createElement('div');
+    div.className = 'step-row';
+    div.innerHTML = `
+        <textarea name="step_instruction[]" rows="2" placeholder="Step instruction"></textarea>
+        <button type="button" class="btn btn-danger" onclick="removeRow(this)">X</button>
+    `;
+    container.appendChild(div);
+}
+
+function removeRow(btn) {
+    const container = btn.parentElement.parentElement;
+    if (container.children.length > 1) {
+        btn.parentElement.remove();
+    }
+}
+</script>
+{% endblock %}

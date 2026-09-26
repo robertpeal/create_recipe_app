@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<a href="{{ url_for('index') }}" class="btn btn-secondary" style="margin-bottom: 20px;">← Back to Recipes</a>
+
+<div class="recipe-detail">
+    <h1>{{ recipe.title }}</h1>
+    <div class="meta-info">
+        Prep Time: {{ recipe.prep_time or '—' }} min |
+        Cook Time: {{ recipe.cook_time or '—' }} min |
+        Servings: {{ recipe.servings or '—' }}
+    </div>
+
+    <div class="detail-section">
+        <h3>Ingredients</h3>
+        {% if ingredients %}
+            {% for ing in ingredients %}
+            <div class="ingredient-item">
+                {{ ing.quantity }} {{ ing.unit }} {{ ing.name }}
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: #999;">No ingredients listed.</p>
+        {% endif %}
+    </div>
+
+    <div class="detail-section">
+        <h3>Steps</h3>
+        {% if steps %}
+            {% for step in steps %}
+            <div class="step-item">
+                <span class="step-number">{{ step.step_order }}.</span>
+                <span>{{ step.instruction }}</span>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: #999;">No steps listed.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="actions">
+    <a href="{{ url_for('index') }}" class="btn">Back to All Recipes</a>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Recipe App</h1>
+<a href="{{ url_for('new_recipe') }}" class="btn">+ Add New Recipe</a>
+
+<h2 style="margin-top: 30px;">Saved Recipes</h2>
+
+{% if recipes %}
+<ul class="recipe-list">
+    {% for recipe in recipes %}
+    <li>
+        <a href="{{ url_for('view_recipe', recipe_id=recipe.id) }}">{{ recipe.title }}</a>
+        <div class="meta-info">
+            Prep: {{ recipe.prep_time or '—' }} min | Cook: {{ recipe.cook_time or '—' }} min | Serves: {{ recipe.servings or '—' }}
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p style="color: #999; margin-top: 15px;">No recipes yet. Click "Add New Recipe" to create one.</p>
+{% endif %}
+{% endblock %}
